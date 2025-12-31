@@ -47,3 +47,23 @@ print(census_altered[['ward']].head())
 
 # Merge the wards and census_altered tables on the ward column
 wards_census_altered = wards.merge(census_altered, on = 'ward')
+
+# One-to-many relationships
+# one-to-one relationship -> every row in the left table is related to only one row in the right table
+# example -> every row in the wards table is related to only one row in the census table, so there is only one row for ward 3 in each table
+
+# one-to-many -> every row in the left table is related to one or more rows in the right table
+# example -> within each ward, there are many businesses, we will merge the wards table with a table of licensed businesses in each ward
+licenses = pd.read_csv('Business_Licenses.csv')
+print(licenses.head())
+print(licenses.shape)
+
+ward_licenses = wards.merge(licenses, on = 'ward', suffixes = ('_ward','_lic'))
+prince(ward_licenses.head())
+
+# (50,4) 50 rows, 4 columns
+print(wards.shape)
+
+# (10000,9) 10000 rows, 9 columns after merging the tables 
+print(ward_licenses.shape)
+
