@@ -209,6 +209,7 @@ print(tv_movies.head())
 # Outer Join
 # Returns all of the rows from both tables regardless if there is a match between the tables
 # This often results in missing values
+# You can use Outer Join to find rows that do not have a match in the other table
 m = movies_to_genre['genre'] == 'Family'
 family = movie_to_genre[m].head(3)
 
@@ -243,3 +244,15 @@ movies_and_scifi_only = movies.merge(scifi_only, left_on = 'id', right_on = 'mov
 # Print the first few rows and shape of movies_and_scifi_only
 print(movies_and_scifi_only.head())
 print(movies_and_scifi_only.shape)
+
+# Use right join to merge the movie_to_genres and pop_movies tables
+genres_movies = movie_to_genres.merge(pop_movies, how='right', 
+                                      left_on = 'movie_id', 
+                                      right_on = 'id')
+
+# Count the number of genres
+genre_count = genres_movies.groupby('genre').agg({'id':'count'})
+
+# Plot a bar chart of the genre_count
+genre_count.plot(kind='bar')
+plt.show()
