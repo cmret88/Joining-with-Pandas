@@ -152,3 +152,23 @@ sorted_pop_vac_lic = pop_vac_lic.sort_values(['vacant','account','pop_2010'],
 
 # Print the top few rows of sorted_pop_vac_lic
 print(sorted_pop_vac_lic.head())
+
+#### LEFT JOIN ####
+# Returns all rows from the left table and only those rows from the right table where column C matches them both
+# We will use the Movies and Tagline databases for this lesson
+movies = pd.read_csv('tmdb_movies.csv')
+print(movies.head())
+print(movies.shape)
+
+taglines = pd.read.csv('tmdb_taglines.csv')
+print(taglines.head())
+print(taglines.shape)
+
+# Merge with left join
+# in this example, we list the movie table first and merge it to the taglines table on the ID column in both tables
+# left join includes the argument 'how', where we are prompted to indicate how we want to join the tables (default 'how' is inner join)
+# the resulting table shows a 1-to-1 merge; a left join will always return the same number of rows of the left table
+movies_taglines = movies.merge(taglines, on = 'id', how = 'left')
+print(movies_taglines.head())
+
+
