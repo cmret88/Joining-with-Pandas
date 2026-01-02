@@ -167,8 +167,60 @@ print(taglines.shape)
 # Merge with left join
 # in this example, we list the movie table first and merge it to the taglines table on the ID column in both tables
 # left join includes the argument 'how', where we are prompted to indicate how we want to join the tables (default 'how' is inner join)
-# the resulting table shows a 1-to-1 merge; a left join will always return the same number of rows of the left table
+# the resulting table shows a 1-to-1 merge; a left join will always return the same number of rows of the left table, if not more
 movies_taglines = movies.merge(taglines, on = 'id', how = 'left')
 print(movies_taglines.head())
+
+# Merge the movies table with the financials table with a left join
+movies_financials = movies.merge(financials, on='id', how='left')
+
+# Count the number of rows in the budget column that are missing
+number_of_missing_fin = movies_financials['budget'].isnull().sum()
+
+# Print the number of movies missing financials
+print(number_of_missing_fin)
+
+#### OTHER JOINS ####
+# Right Join
+# Returns all of the rows from the right table and includes only those rows from the left table that have matching values
+# Mirror opposite of left join
+# In this example, we will use a right join to check that our movies table is not missing data
+movies_to_genres = pd.read_csv('tmdb_movie_to_genres.csv')
+tv_genre = movie_to_genres[movie_to_genres['genre'] == 'TV Movie'] # subsetting for TV Movie genre only
+print(tv_genre)
+
+# subsetting for TV Movie genre only
+m = movie_to_genres['genre'] == 'TV Movie'
+tv_genre = movie_to_genres[m]
+print(tv_genre)
+
+# Our goal is to merge it with the movies table
+# Movies will be left table and tv_genre table will be right table
+
+# Merging with Right Join
+# how = 'right' tells Python to perform a right join
+# 'left_on' and 'right_on' tell the merge which key columns from each table to merge the tables
+# this is particularly useful when you have columns that contain the same type of values, but the column names are different
+# think a.id_medicaid = b.id_medicaid_crnt in SQL
+tv_movies = movies.merge(tv_genre, how = 'right', 
+                          left_on = 'id", right_on = 'movie_id') 
+print(tv_movies.head())
+
+# Outer Join
+# Returns all of the rows from both tables regardless if there is a match between the tables
+# This often results in missing values
+m = movies_to_genre['genre'] == 'Family'
+family = movie_to_genre[m].head(3)
+
+m = movie_to_genres['genre'] == 'Comedy'
+comedy = 'movie_to_genres[m].head(3)
+
+# in this merge, we list the fmaily table as the left table and merge it on the movie_id column
+# how argument is set to outer
+# we add suffixes to show what table the columns originated from
+# results show every row is returned for both tables and we see some null values
+family_comedy = family.merge(comedy, on = 'movie_id', how = 'outer',
+                              suffixes = ('_fam', '_com'))
+print(family_comedy)
 
 
