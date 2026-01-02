@@ -223,4 +223,23 @@ family_comedy = family.merge(comedy, on = 'movie_id', how = 'outer',
                               suffixes = ('_fam', '_com'))
 print(family_comedy)
 
+scifi_only = action_scifi['genre_act'.isnull()]
+# What is the issue?
 
+# The problem here is with how .isnull() is being used. In pandas, .isnull() is a method that should be called on a pandas Series (like a column of a DataFrame), not on a string. In your code, 'genre_act'.isnull() tries to call .isnull() on the string 'genre_act', which causes the error: 'str' object has no attribute 'isnull'.
+
+# To check for null values in the 'genre_act' column, you need to first select the column from the DataFrame (action_scifi['genre_act']), and then call .isnull() on that Series.
+
+# Merge action_movies to the scifi_movies with right join
+action_scifi = action_movies.merge(scifi_movies, on='movie_id', how='right',
+                                   suffixes=('_act','_sci'))
+
+# From action_scifi, select only the rows where the genre_act column is null
+scifi_only = action_scifi[action_scifi['genre_act'].isnull()]
+
+# Merge the movies and scifi_only tables with an inner join
+movies_and_scifi_only = movies.merge(scifi_only, left_on = 'id', right_on = 'movie_id')
+
+# Print the first few rows and shape of movies_and_scifi_only
+print(movies_and_scifi_only.head())
+print(movies_and_scifi_only.shape)
