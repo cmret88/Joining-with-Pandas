@@ -300,3 +300,14 @@ direct_crews = crews_self_merged[boolean_filter]
 
 # Print the first few rows of direct_crews
 print(direct_crews.head())
+
+#### Merging on indexes ####
+# Setting an index
+movies = pd.read_csv('tmdb_movies.csv', index_col = ['id'])
+print(movies.head())
+
+# Merge index sets
+# the merge method automatically adjusts to accept index names or column names
+# the returned table looks as before (when we set the index), except the 'id' is the index
+movies_taglines - movies.merge(taglines, on = 'id', how = 'left')
+print(movies_taglines.head())
