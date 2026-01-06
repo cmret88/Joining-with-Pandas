@@ -269,3 +269,21 @@ m = ((iron_1_and_2['name_1'].isnull()) |
 
 # Print the first few rows of iron_1_and_2
 print(iron_1_and_2[m].head())
+
+#### Merging a Table to Itself ####
+# Also referred to as a self join
+# Let's try merging a table to itself to create a new table whose rows show movies and their sequels
+# the join rules still apply; we apply suffixes to the columns describe the original movie and the ones that describe the sequel
+original_sequels = sequels.merge(sequels, left_on = 'sequel', right_on = 'id',
+                                suffixes = ('_org','_seq'))
+print(original_sequels.head())
+
+# We can also select only the title_org and 'title_seq' columns, and we can see that we've successfully linked each movie to its sequel
+print(original_sequels[,['title_org','title_seq']].head())
+
+# When merging a table to itself, we can use the different types of joins we have already reviewed
+original_sequels = sequels.merge(sequels, left_on = 'sequel, right_on = 'id',
+                                  how = 'left', suffixes = ('_org','_seq'))
+print(original_sequels.head())
+
+
