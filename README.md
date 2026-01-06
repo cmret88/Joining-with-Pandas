@@ -286,4 +286,5 @@ original_sequels = sequels.merge(sequels, left_on = 'sequel, right_on = 'id',
                                   how = 'left', suffixes = ('_org','_seq'))
 print(original_sequels.head())
 
-
+# Common situations to merge a table to itself:
+# hierarchical relationships, sequential relationships, graph data
