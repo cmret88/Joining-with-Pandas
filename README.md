@@ -311,3 +311,25 @@ print(movies.head())
 # the returned table looks as before (when we set the index), except the 'id' is the index
 movies_taglines - movies.merge(taglines, on = 'id', how = 'left')
 print(movies_taglines.head())
+
+# Multi-Index datasets
+samuel = pd.read_csv('samuel.csv', index_col = ['movie_id','cast_id'])
+print(samuel.head())
+
+casts = pd.read_csv('casts.csv', index_col = ['movie_id', 'cast_id'])
+print(casts.head())
+
+# Multi-Index merge
+# in this merge, we pass in a list of index level names to the 'on' argument, just like we did when merging on multiple columns
+# since this is an inner join, both the movie_id and cast_id must match in each table to be returned in the result
+# if the index level names are different between the two tables that we want to merge, then we can use the left_on and right_on arguments of the merge method
+samuel_casts = samuel.merge(casts, on =['movie_id','cast_id'])
+print(samuel_casts.head())
+print(samuel_casts.shape)
+
+# Since we are merging on indexes, we need to set left_index and right_index to True
+# These arguments only take True or False
+# The left_index and right_index tell the merge method to use the separate indexes
+movies_genres = movies.merge(movie_to_genres, left_on = 'id', left_index = True,
+                              right_on = 'movie_id', right_index = True)
+print(movies_genres.head())
