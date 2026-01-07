@@ -375,4 +375,25 @@ print(titles_diff.sort_values(by='diff', ascending=False).head())
 # Filtering joins filters observations from table based on whether or not they match an observation in another table
 # A semi join filters the left table down to those observations that have a match in the right table
 # similar to an inner join where the only intersection between tables is returned
-# but they are unlike an inner join in that only the columns on the left table are shown
+# but they are unlike an inner join in that only the columns on the left table are shown, not the right
+# no duplicate rows from the left table are returned, even if there is a one-to-many relationship
+
+# Steps for a Semi Join
+# Step 1 - inner join
+genres_tracks = genres.merge(top_tracks, on = 'gid')
+print(genres_tracks.head())
+
+# Step 2 - isin()
+# uses isin(), which compares every 'gid' in the genres table to the 'gid' in the genres_tracks table
+# this will tell us if our genre appears in our merged genres_tracks table
+# returns a Boolean series of True or False values
+genres['gid'].isin(genres_tracks['gid'])
+
+# Step 3 - semi join
+# we use the line of code from Step 2 to subset the genres table
+genres_tracks = genres.merge(top_tracks, on = 'gid')
+genres['gid'].isin(genres_tracks['gid'])
+print(top_genres.head())
+
+# this is called a filtering join because we filtered the genres table by what's in the top_tracks table
+
