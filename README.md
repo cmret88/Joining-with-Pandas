@@ -411,7 +411,7 @@ print(genres_tracks.head())
 # Step 2 - use 'loc' accessor and '_merge' column
 # this selects only rows that appear in the left table and return only the 'gid' column from the genres_tracks table
 # this gives you a list of gids NOT in the tracks table
-gid_list = genres_tracks.loc['_merge'] == 'left_only', 'gid']
+gid_list = genres_tracks.loc[genres_track['_merge'] == 'left_only', 'gid']
 print(gid.list.head())
 
 # Step 3 - use isin() to filter
@@ -421,3 +421,12 @@ genres_tracks = genres.merge(top_tracks, on = 'gid', how = 'left', indicator = T
 gid_list = genres_tracks.loc['_merge'] == 'left_only', 'gid']
 non_top_genres = genres[genres['gid'].isin(gid_list)]
 print(non_top_genres.head())
+
+# Merge employees and top_cust
+empl_cust = employees.merge(top_cust, on='srid', 
+                            how='left', indicator=True)
+# Select the srid column where _merge is left_only
+srid_list = empl_cust.loc[empl_cust['_merge'] == 'left_only', 'srid']
+
+# Get employees not working with top customers
+print(employees[employees['srid'].isin(srid_list)])
