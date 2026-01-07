@@ -397,3 +397,27 @@ print(top_genres.head())
 
 # this is called a filtering join because we filtered the genres table by what's in the top_tracks table
 
+#### Anti-Join ####
+# returns the left table, excluding the intersection
+# returns only columns from the left table and not the right
+# we can use an anti-join to, say, find songs that are NOT in the top 10
+
+# Step 1 - use left join
+# with the indicator set to True, the merge method adds a column called '_merge' to the output
+# this column tells the source for each row
+genres_tracks = genres.merge(top_tracks, on = 'gid', how = 'left', indicator = True)
+print(genres_tracks.head())
+
+# Step 2 - use 'loc' accessor and '_merge' column
+# this selects only rows that appear in the left table and return only the 'gid' column from the genres_tracks table
+# this gives you a list of gids NOT in the tracks table
+gid_list = genres_tracks.loc['_merge'] == 'left_only', 'gid']
+print(gid.list.head())
+
+# Step 3 - use isin() to filter
+# we use isin() to filter for the rows with gids in our gid_list
+# output shows those genres NOT in the tracks table
+genres_tracks = genres.merge(top_tracks, on = 'gid', how = 'left', indicator = True)
+gid_list = genres_tracks.loc['_merge'] == 'left_only', 'gid']
+non_top_genres = genres[genres['gid'].isin(gid_list)]
+print(non_top_genres.head())
