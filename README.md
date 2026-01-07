@@ -367,3 +367,12 @@ titles_diff = orig_seq[['title_org','title_seq','diff']]
 
 # Print the first rows of the sorted titles_diff
 print(titles_diff.sort_values(by='diff', ascending=False).head())
+
+#### Filtering Joins ####
+# Pandas does not provide direct support for filter joins
+# But we will learn how to replicate them
+# Mutating joins combines data from two tables based on matching observations in both tables
+# Filtering joins filters observations from table based on whether or not they match an observation in another table
+# A semi join filters the left table down to those observations that have a match in the right table
+# similar to an inner join where the only intersection between tables is returned
+# but they are unlike an inner join in that only the columns on the left table are shown
