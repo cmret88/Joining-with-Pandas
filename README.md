@@ -430,3 +430,9 @@ srid_list = empl_cust.loc[empl_cust['_merge'] == 'left_only', 'srid']
 
 # Get employees not working with top customers
 print(employees[employees['srid'].isin(srid_list)])
+
+# Merge the non_mus_tcks and top_invoices tables on tid
+tracks_invoices = non_mus_tcks.merge(top_invoices, on = 'tid')
+
+# Use .isin() to subset non_mus_tcks to rows with tid in tracks_invoices
+top_tracks = [non_mus_tcks[non_mus_tcks['tid'].isin(tracks_invoices)]]
