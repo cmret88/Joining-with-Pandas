@@ -442,3 +442,20 @@ cnt_by_gid = top_tracks.groupby(['gid'], as_index=False).agg({'tid':'count'})
 
 # Merge the genres table to cnt_by_gid on gid and print
 print(cnt_by_gid.merge(genres, on = 'gid'))
+
+#### Concatenate DataFrames together vertically ####
+# we can use the concatenate method to stick tables together vertically or horizontally
+# pandas .concat() method can concatenate both vertical and horizontal
+# axis = 0, vertical
+# Basic concatenation - 3 tables, same column names (think union in SQL)
+# we can pass a list of table names into pd.concat to combine the tables in the order they're passed in
+# to concatenate vertically, the axis argument should be set to 0, but it is 0 by default, so we don't need to write this
+# when we concatenate, each table's index value is retained
+pd.concat([inv_jan, inv_feb, inv_mar])
+
+# concatenate and ignoring the index
+# if the index contains no valuable info, then we can ignore it in the concat method by setting the ignore_index to True
+pd.concat([inv_jan, inv_feb, inv_mar], ignore_index = True)
+
+# Setting labels to original tables 1:36 mark
+
