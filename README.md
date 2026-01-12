@@ -458,4 +458,20 @@ pd.concat([inv_jan, inv_feb, inv_mar])
 pd.concat([inv_jan, inv_feb, inv_mar], ignore_index = True)
 
 # Setting labels to original tables 1:36 mark
+# suppose we wanted to associate specific keys with each of the pieces of our three original tables
+# we can provide a list of labels to the keys argument
+# we need to make sure that ignore_index argument is False, since you can't add a key and ignore the index at the same time
+# the results is a multi-index table, with the label on the first level
+pd.concat([inv_jan, inv_feb, inv_mar], ignore_index = False, keys = ['jan','feb','mar'])
+
+# Concatenate tables with different column names
+# the concat method by default will include all of the columns in the different tables its combining
+# the sort argument, if true, will alphabetically sort the different column names in the result
+# this will result in NaN values for some rows
+# if we only want the matching columns between tables, we can set the join argument to 'inner'
+# the order of the columns will be the same as the input tables
+# this will lead to the unmatching column gone and we are only left with the columns the tables have in common
+pd.concat([inv_jan, inv_feb], join = 'inner')
+
+pd.concat([inv_jan, inv_feb], sort = True)
 
