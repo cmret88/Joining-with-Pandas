@@ -472,6 +472,44 @@ pd.concat([inv_jan, inv_feb, inv_mar], ignore_index = False, keys = ['jan','feb'
 # the order of the columns will be the same as the input tables
 # this will lead to the unmatching column gone and we are only left with the columns the tables have in common
 pd.concat([inv_jan, inv_feb], join = 'inner')
-
 pd.concat([inv_jan, inv_feb], sort = True)
 
+# Concatenate the tracks
+tracks_from_albums = pd.concat([tracks_master, tracks_ride, tracks_st], sort=True)
+
+# Concatenate the tracks so the index goes from 0 to n-1
+tracks_from_albums = pd.concat([tracks_master, tracks_ride, tracks_st],
+                               ignore_index = True,
+                               sort=True)
+                               
+# Concatenate the tracks, show only columns names that are in all tables
+tracks_from_albums = pd.concat([tracks_master, tracks_ride, tracks_st], 
+                               join = 'inner',
+                               sort=True)
+
+# Concatenate the tables and add keys
+inv_jul_thr_sep = pd.concat([inv_jul, inv_aug, inv_sep], 
+                            keys=['7Jul', '8Aug', '9Sep'])
+
+# Group the invoices by the index keys and find avg of the total column
+avg_inv_by_month = inv_jul_thr_sep.groupby(level=0).agg({'total':'mean'})
+
+# Bar plot of avg_inv_by_month
+avg_inv_by_month.plot(kind = 'bar')
+plt.show()
+
+#### Verifying Integrity ####
+# Both the merge and concat methods have special features that allow us to verify the structure of our data
+# when merging two tables, we might expect the tables to have a one-to-one relationship
+# however, one of the columns we are merging on might have a duplicated value, which will turn the relationship into one-to-many
+# we might untintentionally create duplicate records if a record exists in both tables if a record exists in both tables
+# the validate and verify_integrity arguments of the merge and concat methods respectively will allow us to verify the method
+# if we provide the validate argument on of these key strings, it will validate the relationship between the two tables
+.merge(validate = None):
+# checks if merge is of specified type
+# one-to-one
+# one-to-many
+# many-to-one
+# many-to-many
+
+# if we provide the validate argument one of these key strings, it will validate the relationship between the two tables 1:22
