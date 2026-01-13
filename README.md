@@ -512,4 +512,9 @@ plt.show()
 # many-to-one
 # many-to-many
 
-# if we provide the validate argument one of these key strings, it will validate the relationship between the two tables 1:22
+# if we provide the validate argument one of these key strings, it will validate the relationship between the two table
+
+# Merge validate: one-to-one
+# in the result, a MergeError is raised
+tracks.merge(specs, on = 'tid', validate = 'one_to_one')
+
