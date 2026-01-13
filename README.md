@@ -609,3 +609,35 @@ print(inflation_unemploy)
 inflation_unemploy.plot(x='unemployment_rate', y='cpi', kind='scatter')
 plt.show()
 
+# Merge gdp and pop on date and country with fill and notice rows 2 and 3
+ctry_date = pd.merge_ordered(gdp, pop, on = ['date','country'],
+                             fill_method='ffill')
+
+# Merge gdp and pop on country and date with fill
+date_ctry = pd.merge_ordered(gdp, pop, on = ['country','date'], fill_method = 'ffill')
+
+#### Using merge_asof() ####
+# Another method for ordered or time-series data
+# similar to an ordered left join
+# similar features to merge_ordered
+# but unlike an ordered left join, merge_asof() will match on the nearest value columns rather than equal values
+# match on the nearest key column and not exact matches
+# merged 'on' columns must be sorted
+
+# our output is similar to a left join, so we see all of the rows from the left Visa table
+# however, the values of the IBM table are based on how close the date_time values match with the Visa table
+pd.merge_asof(visa, ibm, on = 'date_time', suffixes = ('_visa','_ibm'))
+
+# in this example, we will list the direction argument as 'forward'
+# this will change the behavior of the method to select the first row in the right table whose 'on' key column is greater than or equal to the left's key column
+# the default value for the direction argument is 'backward'
+pd.merge_asof(visa, ibm, on = ['date_time'], suffixes = ('_visa','_ibm'), direction = 'foward')
+
+# when we look at our results, we see different values for the IBM column
+
+# finally, you can set the direction argument to 'nearest' which returns the nearest row in the right table regardless if it is foward or backwards
+
+# when to use merge_asof():
+# data sampled from a process
+# developing a training set (no data leakage)
+# working on a time-series training set where you do  not want any events from the future to be visible that point in time
