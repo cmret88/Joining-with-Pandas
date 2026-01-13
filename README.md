@@ -516,5 +516,59 @@ plt.show()
 
 # Merge validate: one-to-one
 # in the result, a MergeError is raised
+# 'MergeError: Merge keys are not unique in right dataset; not a one-to-one marge
+# we need to handle these duplicates properly before merging
 tracks.merge(specs, on = 'tid', validate = 'one_to_one')
+
+# Merge validate: one-to-many
+# when we set the validate argument to 'one_to_many' no error is raised is the below example
+albums.merge(tracks, on = 'aid', validate = 'one_to_many')
+
+# Verifying concatenations
+# checks whether the new concatenated index contains duplicates
+# default value is False
+# if set to True, it will check if there are duplicate values in the index and raise an error if there are
+.concat(verify_integrity=False)
+
+# Dataset for .concat() example
+# the concat method raises a ValueError stating that the indexes have overlapping values
+pd.concat([inv_feb, inv_mar], verify_integrity = True)
+
+pd.concat([inv_feb, inv_mar], verify_integrity = False)
+# the concat method now returns a combined table with the invoice ID of number 9 repeated twice in this example
+
+# real world data is often NOT clean
+# if you receive a MergeError or a ValueError, you can fix the incorrect data or drop duplicate rows
+
+# Concatenate the classic tables vertically
+classic_18_19 = pd.concat([classic_18, classic_19], ignore_index=True)
+
+# Concatenate the pop tables vertically
+pop_18_19 = pd.concat([pop_18, pop_19], ignore_index=True)
+
+# Merge classic_18_19 with pop_18_19
+classic_pop = classic_18_19.merge(pop_18_19, on = 'tid', how = 'inner')
+
+# Using .isin(), filter classic_18_19 rows where tid is in classic_pop
+popular_classic = classic_18_19[classic_18_19['tid'].isin(classic_pop['tid'])]
+
+# Print popular chart
+print(popular_classic)
+
+#### Using merge_ordered() ####
+# this method can merge time-series and other ordered data
+# the results are similar to the standard merge method with an outer join, but the results are sorted
+
+# .merge() & merge_ordered() methods similarities:
+# both contain arguments to allow us to merge two tables on different columns (on, left_on, right_on)
+# both methods support different types of joins (how = left, right, inner, outer), but .merge() has default inner join and merge_ordered() is default outer join
+# both methods support suffixes for overlapping column names
+
+# .merge() & merge_ordered() methods differences:
+# how you call on each of the methods is different
+# df1.merge(df2) vs. pd.merge_ordered(df1, df2)
+
+
+
+
 
