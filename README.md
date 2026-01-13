@@ -568,6 +568,22 @@ print(popular_classic)
 # how you call on each of the methods is different
 # df1.merge(df2) vs. pd.merge_ordered(df1, df2)
 
+# Merging stock data example (using Apple and McDonald's stock prices)
+# this results in a table sorted by date
+import pandas as pd
+pd.merge_ordered(aapl, mcd, on = 'date', suffixes = ('_aapl','_mcd'))
+
+# if there is no value for a column it is shown as NaN
+# we can fill in this missing data using a technique called forward filling
+# forward filling fills the missing value with the previous value
+
+# Forward fill example
+pd.merge_ordered(aapl, mdc, on = 'date',
+                 suffixes = ('_aapl','_mcd'),
+                 fill_method='ffill')
+
+# we use merge_ordered() in ordered data/time series data
+# useful for handling missing data (most machine learning algorithms require no missing values)
 
 
 
