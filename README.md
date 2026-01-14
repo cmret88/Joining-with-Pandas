@@ -635,12 +635,12 @@ pd.merge_asof(visa, ibm, on = ['date_time'], suffixes = ('_visa','_ibm'), direct
 
 # when we look at our results, we see different values for the IBM column
 
-# finally, you can set the direction argument to 'nearest' which returns the nearest row in the right table regardless if it is foward or backwards
+# finally, you can set the direction argument to 'nearest' which returns the nearest row in the right table regardless if it is forward or backwards
 
 # when to use merge_asof():
 # data sampled from a process
 # developing a training set (no data leakage)
-# working on a time-series training set where you do  not want any events from the future to be visible that point in time
+# working on a time-series training set where you do not want any events from the future to be visible that point in time
 
 # Use merge_asof() to merge jpm and wells
 jpm_wells = pd.merge_asof(jpm, wells, on = 'date_time', 
@@ -657,4 +657,17 @@ price_diffs = jpm_wells_bac.diff()
 
 # Plot the price diff of the close of jpm, wells and bac only
 price_diffs.plot(y=['close_jpm', 'close_wells', 'close_bac'])
+plt.show()
+
+# Merge gdp and recession on date using merge_asof()
+gdp_recession = pd.merge_asof(gdp, recession, on = 'date')
+print(gdp.head())
+print(recession.head())
+print(gdp_recession.head())
+
+# Create a list based on the row value of gdp_recession['econ_status']
+is_recession = ['r' if s=='recession' else 'g' for s in gdp_recession['econ_status']]
+
+# Plot a bar chart of gdp_recession
+gdp_recession.plot(kind='bar', y='gdp', x='date', color=is_recession, rot=90)
 plt.show()
