@@ -685,6 +685,19 @@ plt.show()
 # the method returns all rows in stocks where Nike is greater than or equal to 90
 stocks.query('nike >=90')
 
+# Querying on a multiple conditions, 'and', 'or'
+# selects for rows where Nike is greater than 90 and Disney is less than 140
+stocks.query('nike > 90 and disney < 140')
+# selects for rows where Nike is over 96 and Disney is less than 98
+stocks.query('nike > 96 or disney < 98')
+
+# Using .query() to select text
+# note the use of both single and double quotes
+stocks_long.query('stock == "disney" or (stock == "nike" and close < 90)')
+
+
+
+
 
 
 
