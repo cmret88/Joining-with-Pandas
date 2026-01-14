@@ -671,3 +671,26 @@ is_recession = ['r' if s=='recession' else 'g' for s in gdp_recession['econ_stat
 # Plot a bar chart of gdp_recession
 gdp_recession.plot(kind='bar', y='gdp', x='date', color=is_recession, rot=90)
 plt.show()
+
+#### Selecting data with .query() ####
+# Pandas provides many methods for selecting data
+.query('SOME SELECTION STATEMENT')
+# accepts an input string
+# input string used to determine what rows are returned
+# input string similar to statement after WHERE clause in SQL statement
+
+# Querying on a single condition
+# here we provide a string to the query method
+# the string identifies that we want to condition which rows are returned by the value of the Nike column
+# the method returns all rows in stocks where Nike is greater than or equal to 90
+stocks.query('nike >=90')
+
+
+
+
+
+
+
+
+
+
