@@ -711,8 +711,37 @@ recent_gdp_pop = gdp_pivot.query('date >= "1991-01-01"')
 recent_gdp_pop.plot(rot=90)
 plt.show()
 
+#### Reshaping data with .melt() ####
+# this method will unpivot a table from wide to long, often a more computer friendly format
+# sometimes we will come across a data where every row relates to one subject
+# and each column has different info about an attribute of that subject
+# data formatted in this way is called wide
+# long format is when info on one subject is found over many rows
+# and each row has one attribute about that subject
+# long formatted data is better for computers to work with
 
+# .Melt()
+# first argument is id_vars
+# these are columns to be used as identifier variables
+# we can also think of them as columns in our original data set that we do not want to change
+social_fin_tall = social_fin.melt(id_vars=['financial','company'])
+print(social_fin_tall.head(10))
 
+# Melting with value_vars
+# we are unpivoting 2017 and 2018 columns
+# our put now only has data for the years 2018 and 2017
+# additionally, the order of the value_var was kept
+# the columns with the years is now named 'variable' and our values columns is named variable
+social_fin_tall = social_fin.melt(id_vars = ['financial','company'],
+                                  value_vars = ['2018','2017'])
+print(social_fin_tall.head(9))
+
+# Melting with column names
+# Var_name and Value_name become column names
+social_fin_tall = social_fin.melt(id_vars = ['financial','company'],
+                                  value_vars = ['2018','2017'],
+                                  var_name = 'year', value_name = 'dollars')
+print(social_fin_tall.head(8))
 
 
 
